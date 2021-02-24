@@ -34,7 +34,6 @@ export class DeseosService {
     }
     editarTitulo(titulo: string, lista: Lista){
         this.listas.find(list => list.id === lista.id).titulo = titulo;
-        console.log(this.listas.find(list => list.id === lista.id));
         this.guardarStorage();
     }
 }
