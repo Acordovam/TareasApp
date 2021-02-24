@@ -1,19 +1,50 @@
-import { Component } from '@angular/core';
-import { DeseosService } from '../../services/deseos.service';
-import { Lista } from '../../models/lista.model';
+import {Component} from '@angular/core';
+import {DeseosService} from '../../services/deseos.service';
 import {Router} from '@angular/router';
+import {AlertController} from '@ionic/angular';
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+    selector: 'app-tab1',
+    templateUrl: 'tab1.page.html',
+    styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
-  listas: Lista[] =[];
-  constructor(public deseosService: DeseosService, private router: Router) {
-   this.listas = deseosService.listas;
-  }
-  agregarLista(){
-    this.router.navigateByUrl('/tab1/agregar');
-  }
+
+    constructor(public deseosService: DeseosService, private router: Router, private alertCtrl: AlertController) {
+
+    }
+
+    async agregarLista() {
+        const alert = await this.alertCtrl.create({
+            cssClass: 'my-custom-class',
+            header: 'Nueva lista',
+            inputs: [
+                {
+                    name: 'titulo',
+                    type: 'text',
+                    placeholder: 'Nombre de la lista'
+                }],
+            buttons: [{
+                text: 'Cancelar',
+                role: 'cancel',
+                handler: () => {
+                    console.log('Cancelar');
+                }
+            }, {
+                text: 'Crear',
+                handler: (data) => {
+                    if (data.titulo.length === 0){
+                        return;
+                    }else{
+                        // Crear Lista
+                        const listaId = this.deseosService.crearLista(data.titulo);
+                        this.router.navigateByUrl(`/tab1/agregar/${listaId}`);
+                    }
+                }
+            }],
+        });
+
+        alert.present();
+    }
+
 }

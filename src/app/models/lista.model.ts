@@ -4,16 +4,16 @@ export class Lista{
     id: number;
     titulo: string;
     creadaEn: Date;
-    terminadaEn:Date;
-    terminada:boolean;
-    items: Lista[];
+    terminadaEn: Date;
+    terminada: boolean;
+    items: ListaItem[];
 
     constructor(titulo:string, ){
-        this.id= new Date().getTime();
+        this.id = new Date().getTime();
 
-        this.titulo=titulo;
+        this.titulo = titulo;
         this.creadaEn = new Date();
-        this.terminada=false;
+        this.terminada = false;
         this.items = [];
     }
 }
